@@ -34,7 +34,7 @@ NAMES2ID = {v: k for k, v in ID2NAMES.items()}
 def geo_distance_matrix(points):
     isomap = Isomap(
         n_components=2,
-        n_neighbors=20, # WARNING: This was set to 5 previously but yields in unconnected components, and hence there was a warning print. Increasing it reduces efficiency warnings.
+        n_neighbors=5, # WARNING: This was set to 5 previously but yields in unconnected components, and hence there was a warning print. Increasing it reduces efficiency warnings.
         path_method="auto",
     )
     isomap.fit_transform(points)
