@@ -11,6 +11,11 @@
 
 ### 1. Extracting Geodesic Distance Maps
 
+
+>[!WARNNG]
+> This fork increased number of neighbours of Isomap in geodesic computation
+> in order to reduce efficiency warnings printed. 
+
 Geodesic distance maps are extracted during the data preprocessing phase for generating the ground truth heatmaps. 
 Compute the shortest geodesic distance from points to the keypoints and save the results as '.txt' files.
 
