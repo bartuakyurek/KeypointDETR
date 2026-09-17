@@ -110,7 +110,7 @@ def run(checkpoint, gpus, data_root, visualize=False):
         key = j * 0.01 
         print( key, "\t", np.mean(hmiou[key]))
 
-    print(np.mean(mcd))
+    print("\nMean Chamfer dists:", np.mean(mcd))
 
 
 if __name__ == "__main__":
