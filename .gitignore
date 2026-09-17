@@ -2,3 +2,4 @@
 *.pyc
 /results
 /runs/keypoint_saliency
+*.ckpt
