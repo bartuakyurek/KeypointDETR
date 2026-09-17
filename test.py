@@ -37,8 +37,7 @@ def find_latest_checkpoint(runs_dir="./runs/keypoint_saliency"):
         return checkpoint
 
     raise FileNotFoundError(
-        f"Could not find a valid checkpoint under directory: "{runs_dir}""
-    )
+        f"Could not find a valid checkpoint under directory: '{runs_dir}'")
 # -----------------------------------------------------------------
 
 @click.command()
@@ -111,7 +110,7 @@ def run(checkpoint, gpus, data_root, visualize=False):
                 prediction_str += str(coord) + " "
             prediction_str += "\n"
         
-        preds_path = Path(results_dir) / "control_pts" / f"preds_{i}.txt"
+        preds_path = Path(results_dir) / "control_pts" / f"{mesh_name}.txt"
         preds_path.parent.mkdir(parents=True, exist_ok=True)
         preds_path.write_text(prediction_str)
 
@@ -127,7 +126,7 @@ def run(checkpoint, gpus, data_root, visualize=False):
 
         # Render to an image
         png = scene.save_image(resolution=(600, 600), visible=False)
-        png_dir = Path(results_dir) / "renders" / f"{args.class_name}_{i}.png"
+        png_dir = Path(results_dir) / "renders" / f"{{mesh_name}}.png"
         png_dir.parent.mkdir(parents=True, exist_ok=True)
         with open(png_dir, "wb") as f:
             f.write(png)
