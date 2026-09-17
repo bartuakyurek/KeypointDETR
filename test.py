@@ -58,13 +58,13 @@ def run(checkpoint, gpus, data_root, visualize=False):
     mesh_root = os.path.join(data_root, 'ShapeNetCore.v2.ply')
     class_id = NAMES2ID[args.class_name]
     print(args, "\n -->", test_file)
-    print("[INFO] Testing for the class:", args.class_name)
+    print("[INFO] Testing for the class:", args.class_name, "with query_num =", args.query_num)
     dataset = KPS_Geodesic_Dataset(args, test_file, False)
 
     # Create directories for saving the results
     results_dir = Path('./results')
     timestamp = datetime.now().strftime("%y-%m-%d-%H-%M-%S")
-    results_dir = Path(os.path.join(results_dir, args.class_name + '_' + timestamp))
+    results_dir = Path(os.path.join(results_dir, args.class_name + '_query' + str(args.query_num) + "_" + timestamp))
     results_dir.mkdir(parents=True, exist_ok=True)
 
     mcd = []
