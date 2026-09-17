@@ -74,7 +74,9 @@ class DGTBackbone(nn.Module):
         super(DGTBackbone, self).__init__()
 
         self.k = args.k
-        self.dynamic = args.dynamic
+        #self.dynamic = args.dynamic
+        print("[bartu debug] Turning off unused self.dynamic..")
+
 
         self.smlp = SharedMLP1d([3, 64], args.norm)
         self.encoders = nn.ModuleList()
