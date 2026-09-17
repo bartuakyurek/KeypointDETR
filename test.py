@@ -126,7 +126,7 @@ def run(checkpoint, gpus, data_root, visualize=False):
 
         # Render to an image
         png = scene.save_image(resolution=(600, 600), visible=False)
-        png_dir = Path(results_dir) / "renders" / f"{{mesh_name}}.png"
+        png_dir = Path(results_dir) / "renders" / f"{mesh_name}.png"
         png_dir.parent.mkdir(parents=True, exist_ok=True)
         with open(png_dir, "wb") as f:
             f.write(png)
