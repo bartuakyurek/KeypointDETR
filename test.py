@@ -40,7 +40,8 @@ def run(checkpoint, gpus, data_root, visualize=False):
     mcd = []
     hmiou = {}
 
-    for i in range(11):
+    n_thresholds = 11 # For Hungarian mIoU metric
+    for i in range(n_thresholds):
         key = i * 0.01
         hmiou[key] = []
 
@@ -60,9 +61,9 @@ def run(checkpoint, gpus, data_root, visualize=False):
         cd = get_cd(dists)
         mcd.append(cd)
 
-        for j in range(11): # TODO: What exactly is this?
+        for j in range(n_thresholds): 
             key = j * 0.01
-            hiou = hungary_iou(dists, key)
+            hiou = hungary_iou(dists, dist_thresh=key)
             hmiou[key].append(hiou)
 
         # Save to results/{modelname} as:
@@ -104,11 +105,10 @@ def run(checkpoint, gpus, data_root, visualize=False):
             scene.show()
         # ------------------------------------------------------------------------------------
 
-    for j in range(11): # TODO: What exactly is this?
-        key = j * 0.01
-        print(np.mean(hmiou[key]))
-
-   
+    print("Threshold \t Average Hungarian mIoU")
+    for j in range(n_thresholds): 
+        key = j * 0.01 
+        print( key, "\t", np.mean(hmiou[key]))
 
     print(np.mean(mcd))
 
