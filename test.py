@@ -6,19 +6,49 @@ import trimesh
 import os 
 from pathlib import Path
 from datetime import datetime
+import yaml
 
 from scipy.spatial.distance import cdist
 from pl_model import LitModel
 from data.st_data import KPS_Geodesic_Dataset, NAMES2ID
 from utils.metrics import get_cd, hungary_iou
 
-# TODO: Automatically detect the model version 
+# Automatically detect the latest model version ---------------------
+
+def find_latest_checkpoint(runs_dir="./runs/keypoint_saliency"):
+    runs_dir = Path(runs_dir)
+
+    versions = sorted(
+        runs_dir.glob("version_*"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    print("[DEBUG] Found versions:\n", versions)
+
+    for version_dir in versions:
+        checkpoint = version_dir / "checkpoints" / "last.ckpt"
+
+        if not checkpoint.exists():
+            continue
+
+        print(f"[INFO] Found run: {version_dir}")
+        print(f"[INFO] Checkpoint: {checkpoint}")
+
+        return checkpoint
+
+    raise FileNotFoundError(
+        f"Could not find a valid checkpoint under directory: "{runs_dir}""
+    )
+# -----------------------------------------------------------------
 
 @click.command()
 @click.option('--data_root', type=str, default='../data/keypointnet_data')
-@click.option('--checkpoint', type=str, default='./runs/keypoint_saliency/version_XX/checkpoints/last.ckpt')   
+@click.option('--checkpoint', type=str, default=None, help='Checkpoint path to evaluate. If omitted, infers the latest training run.')   
 @click.option('--gpus', default=1)
 def run(checkpoint, gpus, data_root, visualize=False):
+
+    checkpoint = find_latest_checkpoint() if checkpoint is None else Path(checkpoint)
+
     model = LitModel.load_from_checkpoint(checkpoint).cuda()
     model.eval()
 
@@ -29,6 +59,7 @@ def run(checkpoint, gpus, data_root, visualize=False):
     mesh_root = os.path.join(data_root, 'ShapeNetCore.v2.ply')
     class_id = NAMES2ID[args.class_name]
     print(args, "\n -->", test_file)
+    print("[INFO] Testing for the class:", args.class_name)
     dataset = KPS_Geodesic_Dataset(args, test_file, False)
 
     # Create directories for saving the results
