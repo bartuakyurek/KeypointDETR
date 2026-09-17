@@ -39,5 +39,16 @@ if __name__ == "__main__":
                          **debug_args)
     trainer.fit(model)
 
+    # Bartu edit
+    # based on https://github.com/m-bain/whisperX/issues/1304
+    _original_torch_load = torch.load
+
+    def _trusted_load(*args, **kwargs):
+        kwargs['weights_only'] = False
+        return _original_torch_load(*args, **kwargs)
+
+    torch.load = _trusted_load
+    # End of bartu edit
+
     results = trainer.test(ckpt_path='best')
     print(results)
