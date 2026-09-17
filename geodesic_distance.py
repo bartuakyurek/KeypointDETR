@@ -90,4 +90,75 @@ def process_class(class_name, pcd_root, anno_file):
 
         kp_idx = keypoints[filename]
 
-        write_keypoints_geo_distance_metrix(pcd_file, kp_idx, write_file)
+        write_keypoints_geo_distance_matrix(
+            pcd_file,
+            kp_idx,
+            write_file,
+        )
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Compute geodesic distance matrices for KeypointNet."
+    )
+
+    parser.add_argument(
+        "--class",
+        dest="classes",
+        nargs="+",
+        required=True,
+        help="Classes to process. Use 'all' to process all classes.",
+    )
+
+    parser.add_argument(
+        "--pcd-root",
+        type=Path,
+        default=Path("../data/keypointnet_data/pcds"),
+        help="Root directory containing the PCDs.",
+    )
+
+    parser.add_argument(
+        "--anno-file",
+        type=Path,
+        default=Path("../data/keypointnet_data/annotations/all.json"),
+        help="Keypoint annotation JSON file.",
+    )
+
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    if "all" in args.classes:
+        classes = list(NAMES2ID.keys())
+    else:
+        classes = args.classes
+
+    # Validate class names before doing any computation
+    invalid_classes = [
+        class_name
+        for class_name in classes
+        if class_name not in NAMES2ID
+    ]
+
+    if invalid_classes:
+        raise ValueError(
+            f"Unknown class(es): {invalid_classes}\n"
+            f"Available classes: {list(NAMES2ID.keys())}"
+        )
+
+    for class_name in classes:
+        print(f"\n{'=' * 60}")
+        print(f"Processing class: {class_name}")
+        print(f"{'=' * 60}")
+
+        process_class(
+            class_name,
+            args.pcd_root,
+            args.anno_file,
+        )
+
+
+if __name__ == "__main__":
+    main()
