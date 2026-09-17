@@ -41,14 +41,19 @@ class FocalLoss(torch.nn.Module):
             self.alpha = Variable(torch.ones(num_classes, 1))
         else:
             self.alpha = alpha
+        
         self.gamma = gamma
         self.reduction = reduction
         self.num_classes = num_classes
 
     def forward(self, predict, target):
+        
         pt = F.softmax(predict, dim=1)
         class_mask = F.one_hot(target, self.num_classes)
         ids = target.view(-1, 1)
+
+        self.alpha = self.alpha.to(predict.device)
+
         alpha = self.alpha[ids.data.view(-1)].to(predict.device)
         probs = (pt * class_mask).sum(1).view(-1, 1)
         log_p = probs.log()
