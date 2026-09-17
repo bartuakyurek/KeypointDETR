@@ -16,7 +16,7 @@ from utils.metrics import get_cd, hungary_iou
 
 @click.command()
 @click.option('--data_root', type=str, default='../data/keypointnet_data')
-@click.option('--checkpoint', type=str, default='./runs//last.ckpt')   
+@click.option('--checkpoint', type=str, default='./runs/keypoint_saliency/version_XX/checkpoints/last.ckpt')   
 @click.option('--gpus', default=1)
 def run(checkpoint, gpus, data_root, visualize=False):
     model = LitModel.load_from_checkpoint(checkpoint).cuda()
@@ -65,13 +65,13 @@ def run(checkpoint, gpus, data_root, visualize=False):
             hiou = hungary_iou(dists, key)
             hmiou[key].append(hiou)
 
-        # visualization result
-        # TODO: Save to results/{modelname} as:
+        # Save to results/{modelname} as:
         # 1- OK .txt of the predicted points
         # 2- OK snapshots of offline rendering
         # 3- OK (turn off the online visualization)
-        # 4- Plot the errors for sanity check
-        
+        # 4- TODO: Plot the errors for sanity check
+        #print("[BARTU DEBUG] Number of predicted/ground truth keypoints per mesh: ", len(pts), "/", len(gts))
+
         # Save predicted checktpoint coordinates as "x y z" per row ---------------------------
         prediction_str = ""
         for pred_pt in pts:
@@ -107,6 +107,9 @@ def run(checkpoint, gpus, data_root, visualize=False):
     for j in range(11): # TODO: What exactly is this?
         key = j * 0.01
         print(np.mean(hmiou[key]))
+
+   
+
     print(np.mean(mcd))
 
 
