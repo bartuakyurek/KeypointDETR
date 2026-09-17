@@ -89,10 +89,10 @@ class KPS_Geodesic_Dataset(Dataset):
 if __name__ == '__main__':
     class Args(object):
         def __init__(self):
-            self.anno_dir = 'F:/dataset/keypointnet/annotations/all.json'
+            self.anno_dir = '../data/keypointnet_data/annotations/all.json'
             self.class_name = 'airplane'
-            self.split_root = 'F:/dataset/keypointnet/splits'
-            self.pcd_root = 'F:/dataset/keypointnet/pcds'
+            self.split_root = '../data/keypointnet_data/splits'
+            self.pcd_root = '../data/keypointnet_data/pcds'
             self.augmentation = True
             self.normalize_pc = True
             self.landmark_std = 0.2
