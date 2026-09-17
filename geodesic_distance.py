@@ -171,7 +171,8 @@ def main():
             args.anno_file,
             args.recompute,
         )
-
+    print("Done.")
+    print("TIP: Use --recompute if you want to override the existing preprocessed data.")
 
 if __name__ == "__main__":
     main()
