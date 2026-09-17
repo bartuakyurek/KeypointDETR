@@ -88,9 +88,11 @@ def process_class(class_name, pcd_root, anno_file, recompute=False):
             print(f"WARNING: No keypoints found for {filename}")
             continue
 
-        if write_file.exists() and not recompute:
-            print(f"[SKIP] Already exists: {write_file}")
-            continue
+        if write_file.exists():
+            if not recompute:
+                continue
+            else:
+                print(f"[DEBUG] Found old implementation, recomputing: {write_file}")
 
         kp_idx = keypoints[filename]
 
