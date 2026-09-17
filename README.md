@@ -11,10 +11,25 @@
 
 ### 1. Extracting Geodesic Distance Maps
 
-[scripts/geodesic_distance.py](https://github.com/bibi547/KeypointDETR/blob/master/scripts/geodesic_distance.py)
-
 Geodesic distance maps are extracted during the data preprocessing phase for generating the ground truth heatmaps. 
 Compute the shortest geodesic distance from points to the keypoints and save the results as '.txt' files.
+
+
+For selected classes:
+``` 
+python geodesic_distance.py --class guitar table chair
+``` 
+
+Running for all classes:
+```
+python geodesic_distance.py --class all
+```
+
+>[!INFO]
+> These arguments are added as a part of this fork for convenience.
+> Make sure the dataset is under ../data/keypoints_data
+> and it should contain /splits folder which is available 
+> in the repository of the dataset [https://github.com/qq456cvb/KeypointNet/tree/master/splits](here).
 
 ### 2. Config
 
