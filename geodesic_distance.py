@@ -40,10 +40,10 @@ def write_keypoints_geo_distance_metrix(pcd_file, kp_idx, out_file):
 
 
 if __name__ == '__main__':
-    pcd_root = '/home/bartu/Documents/GitHub/data/keypointnet_data/pcds/'
-    write_root = '/home/bartu/Documents/GitHub/data/keypointnet_data/pcds/'
-    anno_file = '/home/bartu/Documents/GitHub/data/keypointnet_data/annotations/all.json'
-    class_name = 'table'
+    pcd_root = '../data/keypointnet_data/pcds/'
+    write_root = '../data/keypointnet_data/pcds/'
+    anno_file = '../data/keypointnet_data/annotations/all.json'
+    class_name = 'guitar'
 
     pcd_root = os.path.join(pcd_root, NAMES2ID[class_name])
     write_root = os.path.join(write_root, NAMES2ID[class_name])
