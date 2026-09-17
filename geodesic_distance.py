@@ -56,7 +56,6 @@ def write_keypoints_geo_distance_matrix(pcd_file, kp_idx, out_file):
 
 
 def process_class(class_name, pcd_root, anno_file, recompute=False):
-    print(f"[INFO] Processing class: {class_name}...")
     class_id = NAMES2ID[class_name]
 
     class_pcd_root = pcd_root / class_id
