@@ -1,4 +1,5 @@
 import yaml
+import torch
 import argparse
 import pytorch_lightning as pl
 
@@ -26,7 +27,10 @@ if __name__ == "__main__":
     args = get_parser()
     pl.seed_everything(args.seed)
 
+    print("[bartu debug] Creating model..")
     model = LitModel(args)
+    print("[bartu debug] Model created.")
+
     if args.load_from_checkpoint:
         model = LitModel.load_from_checkpoint(args.load_from_checkpoint)
 
@@ -35,8 +39,17 @@ if __name__ == "__main__":
 
     debug = False
     debug_args = {'limit_train_batches': 10} if debug else {}
-    trainer = pl.Trainer(logger, accelerator='gpu', devices=1, max_epochs=args.max_epochs, callbacks=[callback],
+
+    if  torch.accelerator.is_available():
+        print('[bartu debug] accelerator is avaliable!')
+        device = 'cuda'
+    else: 
+        print('[bartu debug] cannot find an accelerator, falling back to cpu.')
+        device = 'cpu'
+
+    trainer = pl.Trainer(logger=logger, accelerator=device, devices=1, max_epochs=args.max_epochs, callbacks=[callback],
                          **debug_args)
+
     trainer.fit(model)
 
     # Bartu edit
