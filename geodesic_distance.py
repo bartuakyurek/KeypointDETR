@@ -55,7 +55,7 @@ def write_keypoints_geo_distance_matrix(pcd_file, kp_idx, out_file):
     )
 
 
-def process_class(class_name, pcd_root, anno_file):
+def process_class(class_name, pcd_root, anno_file, recompute=False):
     print(f"[INFO] Processing class: {class_name}...")
     class_id = NAMES2ID[class_name]
 
@@ -86,6 +86,10 @@ def process_class(class_name, pcd_root, anno_file):
 
         if filename not in keypoints:
             print(f"WARNING: No keypoints found for {filename}")
+            continue
+
+        if write_file.exists() and not recompute:
+            print(f"[SKIP] Already exists: {write_file}")
             continue
 
         kp_idx = keypoints[filename]
@@ -124,6 +128,13 @@ def parse_args():
         help="Keypoint annotation JSON file.",
     )
 
+    parser.add_argument(
+        "--recompute",
+        action="store_true",
+        help="Recompute geodesic distances even if the output .txt already exists.",
+    )
+
+
     return parser.parse_args()
 
 
@@ -157,6 +168,7 @@ def main():
             class_name,
             args.pcd_root,
             args.anno_file,
+            args.recompute,
         )
 
 
