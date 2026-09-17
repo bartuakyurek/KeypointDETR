@@ -28,7 +28,7 @@ STRUCTURE:
   dropout: 0.
 
 TRAIN:
-  max_epochs: 200
+  max_epochs: 50
   weight_decay: 0.0001
   # batch_size per gpu
   batch_size: 4
