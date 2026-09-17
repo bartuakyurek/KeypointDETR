@@ -1,5 +1,12 @@
 # KeypointDETR: an end-to-end 3d keypoint detector
 
+> [!WARNING]
+> This repository is forked only for research purposes.
+> I have done some changes to fix the errors of the
+> published implementation at the time. And the code might
+> be further adapted for other unrelated research tasks. 
+> Please refer to the original repo of KeypointDETR.
+
 ## Run
 
 ### 1. Extracting Geodesic Distance Maps
@@ -15,7 +22,12 @@ Modify the config [config/keypoint_saliency.yaml](https://github.com/bibi547/Key
 
 ### 3. Requirement
 
-...
+> [!WARNING]
+> These requirements are extracted for this forked repository,
+> they do not necessarily correspond to the official implementation.
+
+NOTE: These requirements are only tested under Linux Fedora Workstation 45.
+`` pip install -r requirements.txt``` 
 
 ### 4. Train
 
