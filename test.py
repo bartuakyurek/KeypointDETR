@@ -67,4 +67,19 @@ def run(checkpoint, gpus):
 
 
 if __name__ == "__main__":
+
+    # Bartu edit: workaround for a pickle error
+    # based on https://github.com/m-bain/whisperX/issues/1304
+    _original_torch_load = torch.load
+
+    def _trusted_load(*args, **kwargs):
+        kwargs['weights_only'] = False
+        return _original_torch_load(*args, **kwargs)
+
+    torch.load = _trusted_load
+    # End of bartu edit
+
+
+    # Find the latest checkpoint file
+
     run()
